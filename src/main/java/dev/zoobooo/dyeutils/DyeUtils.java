@@ -1,0 +1,86 @@
+package dev.zoobooo.dyeutils;
+
+import java.util.ArrayDeque;
+import java.util.Queue;
+
+import com.mojang.brigadier.Command;
+import com.mojang.logging.LogUtils;
+
+import dev.zoobooo.dyeutils.config.DyeUtilsConfig;
+import dev.zoobooo.dyeutils.config.DyeUtilsConfigScreen;
+import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
+import dev.zoobooo.dyeutils.party.PartyInviter;
+import dev.zoobooo.dyeutils.party.PartyListCommand;
+import dev.zoobooo.dyeutils.util.MessageScheduler;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+
+import org.slf4j.Logger;
+
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+
+public class DyeUtils implements ClientModInitializer {
+	public static final String NAMESPACE = "dyeutils";
+	private static final Logger LOGGER = LogUtils.getLogger();
+
+	private static final Component PREFIX = Component.literal("[DyeUtils] ").withStyle(ChatFormatting.AQUA);
+
+	// A command callback runs while the chat screen is still closing, so setScreen waits a tick.
+	private static final Queue<Screen> PENDING_SCREENS = new ArrayDeque<>();
+
+	@Override
+	public void onInitializeClient() {
+		DyeUtilsConfig.load();
+		DyeUtilsKeys.init();
+
+		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
+				literal(NAMESPACE)
+						.executes(context -> openScreenLater(DyeUtilsConfigScreen.create(null)))
+						.then(PartyListCommand.build())));
+
+		ClientTickEvents.END_CLIENT_TICK.register(DyeUtils::onEndTick);
+
+		LOGGER.info("[DyeUtils] Initialised.");
+	}
+
+	private static void onEndTick(Minecraft client) {
+		while (DyeUtilsKeys.INVITE_PARTY.consumeClick()) {
+			PartyInviter.inviteAll();
+		}
+
+		while (DyeUtilsKeys.PARTY_WARP.consumeClick()) {
+			PartyInviter.warp();
+		}
+
+		MessageScheduler.INSTANCE.tick();
+
+		Screen pending = PENDING_SCREENS.poll();
+		if (pending != null) client.setScreen(pending);
+	}
+
+	public static int openScreenLater(Screen screen) {
+		PENDING_SCREENS.add(screen);
+		return Command.SINGLE_SUCCESS;
+	}
+
+	public static Identifier id(String path) {
+		return Identifier.fromNamespaceAndPath(NAMESPACE, path);
+	}
+
+	public static DyeUtilsConfig config() {
+		return DyeUtilsConfig.get();
+	}
+
+	public static void feedback(Component message) {
+		Minecraft client = Minecraft.getInstance();
+		if (client.player == null) return;
+
+		client.player.sendSystemMessage(PREFIX.copy().append(message.copy().withStyle(ChatFormatting.GRAY)));
+	}
+}

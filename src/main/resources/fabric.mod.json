@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "dyeutils",
+  "version": "${version}",
+  "name": "DyeUtils",
+  "description": "QOL mod designed to help out on the dye grind in Hypixel SkyBlock.",
+  "authors": [
+    "Zoobooo"
+  ],
+  "contact": {
+    "sources": "https://github.com/Zoobooo/DyeUtils",
+    "issues": "https://github.com/Zoobooo/DyeUtils/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/dyeutils/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.zoobooo.dyeutils.DyeUtils"
+    ],
+    "modmenu": [
+      "dev.zoobooo.dyeutils.compat.ModMenuIntegration"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "fabric-api": ">=0.155.2+26.1.2",
+    "dandelion": ">=1.0.0-alpha.21+26.1",
+    "yet_another_config_lib_v3": ">=3.9.6+26.1",
+    "fabric-language-kotlin": "*",
+    "minecraft": "~26.1",
+    "java": ">=25"
+  }
+}

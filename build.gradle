@@ -1,0 +1,87 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+version = "${project.mod_version}+${project.minecraft_version}"
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	// Dandelion alpha.21 is not on any maven; see the note in gradle.properties.
+	flatDir {
+		dirs 'libs'
+	}
+
+	exclusiveContent {
+		forRepository {
+			maven { url = "https://maven.terraformersmc.com/releases" }
+		}
+
+		filter {
+			includeGroup "com.terraformersmc"
+		}
+	}
+
+	maven {
+		url = "https://maven.isxander.dev/releases"
+
+		content {
+			includeGroup "dev.isxander"
+			includeGroup "org.quiltmc.parsers"
+		}
+	}
+
+	maven {
+		url = "https://maven.azureaaron.net/releases"
+
+		content {
+			includeGroup "net.azureaaron"
+		}
+	}
+}
+
+dependencies {
+	// Minecraft ships unobfuscated from 1.21.11 onwards, so there is no `mappings` line and mod
+	// dependencies use the plain configurations rather than `modImplementation`.
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	include implementation("net.azureaaron:dandelion:${project.dandelion_version}")
+	include implementation("dev.isxander:yet-another-config-lib:${project.yacl_version}-fabric")
+
+	implementation "net.fabricmc:fabric-language-kotlin:${project.flk_version}"
+	compileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	def archivesName = project.base.archivesName
+	inputs.property "archivesName", archivesName.get()
+
+	from("LICENSE") {
+		rename { "${it}_${archivesName.get()}" }
+	}
+}
