@@ -7,7 +7,7 @@ a client-side fabric mod for hypixel skyblock, built to take some of the busywor
 **party inviter**: keep a list of igns and invite all of them with one keypress. hypixel caps invites
 at five per command, so longer lists are split into batches sent half a second apart.
 
-**party warp**: a second hotkey that runs `/p warp`.
+**party warp**: a second hotkey that sends `!warp` in party chat.
 
 both hotkeys are unbound by default. set them in the mod's config screen or under
 options, controls, key binds.

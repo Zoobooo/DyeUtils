@@ -24,7 +24,7 @@
   "dyeutils.config.hotkey.invite": "Invite Party List",
   "dyeutils.config.hotkey.invite.desc": "Invites every IGN on the list. Hypixel only accepts 5 invites per command, so longer lists are sent as several commands half a second apart.",
   "dyeutils.config.hotkey.warp": "Party Warp",
-  "dyeutils.config.hotkey.warp.desc": "Runs /p warp.",
+  "dyeutils.config.hotkey.warp.desc": "Sends !warp in party chat.",
 
   "dyeutils.config.group.advanced": "Advanced",
   "dyeutils.config.inviteCommandPrefix": "Invite Command",
@@ -34,7 +34,7 @@
 
   "dyeutils.message.emptyList": "Your party list is empty. Add some IGNs with /dyeutils first.",
   "dyeutils.message.invited": "Inviting %s player(s) in %s command(s).",
-  "dyeutils.message.warping": "Warping the party.",
+  "dyeutils.message.warping": "Asking the party to warp.",
   "dyeutils.message.droppedEntries": "Skipped %s invalid or duplicate name(s).",
   "dyeutils.message.added": "Added %s to the party list.",
   "dyeutils.message.removed": "Removed %s from the party list.",

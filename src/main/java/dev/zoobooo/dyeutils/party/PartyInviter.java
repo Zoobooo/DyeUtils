@@ -18,7 +18,7 @@ public class PartyInviter {
 	private static final long INVITE_GAP_MS = 500L;
 
 	private static final String DEFAULT_PREFIX = "/p invite ";
-	private static final String WARP_COMMAND = "/p warp";
+	private static final String WARP_COMMAND = "/pc !warp";
 
 	public static void inviteAll() {
 		Minecraft client = Minecraft.getInstance();
