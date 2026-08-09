@@ -12,6 +12,15 @@ at five per command, so longer lists are split into batches sent half a second a
 both hotkeys are unbound by default. set them in the mod's config screen or under
 options, controls, key binds.
 
+**auto update**, the mod keeps itself up to date from github releases. it checks in the background
+while you play, downloads anything newer that was built for your minecraft version, and swaps the jar
+in when you close the game, so the new version is running the next time you start. there is nothing
+to click and no message in chat.
+
+on windows the jar cannot be renamed while the game holds it open, so the update is written into the
+existing file and the file name keeps the version it was first downloaded as. the version mod menu
+reports is the real one.
+
 ## usage
 
 open the config with `/dyeutils`, or through mod menu.
@@ -48,6 +57,24 @@ the jar lands in `build/libs`.
 
 `libs/dandelion-1.0.0-alpha.21+26.1.jar` is vendored because that version was never published to a
 maven repository. it is the first one with a key mapping option, which the hotkey rows use.
+
+## releasing
+
+bump `mod_version` in `gradle.properties`, commit, then tag and push:
+
+```
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+`.github/workflows/release.yml` builds the jar and opens a **draft** release with it attached. write
+the notes on the draft and publish when you are ready. the updater ignores drafts, so nothing reaches
+players until you press publish.
+
+the workflow fails the build rather than publishing a bad release if the tag does not match
+`mod_version`, if the jar is not named `dyeutils-<mod version>+<minecraft version>.jar`, or if the
+version inside the jar disagrees with its file name. that name is what the updater matches on, so a
+renamed asset silently stops every installed copy from updating.
 
 ## notes
 

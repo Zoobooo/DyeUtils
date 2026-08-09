@@ -1,0 +1,119 @@
+name: release
+
+# Pushing a v* tag builds the jar and opens a draft release with it already attached. Write the
+# notes on the draft and publish when you are happy with it -- the updater skips drafts, so nobody
+# downloads a release before you have finished with it.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: "25"
+          distribution: temurin
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      # gradlew is stored without the executable bit, so the runner has to set it.
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Read versions
+        id: versions
+        run: |
+          mod_version=$(sed -n 's/^mod_version=//p' gradle.properties | tr -d '[:space:]')
+          minecraft_version=$(sed -n 's/^minecraft_version=//p' gradle.properties | tr -d '[:space:]')
+
+          if [ -z "$mod_version" ] || [ -z "$minecraft_version" ]; then
+            echo "::error::Could not read mod_version or minecraft_version from gradle.properties"
+            exit 1
+          fi
+
+          echo "mod=$mod_version" >> "$GITHUB_OUTPUT"
+          echo "minecraft=$minecraft_version" >> "$GITHUB_OUTPUT"
+          echo "jar=dyeutils-$mod_version+$minecraft_version.jar" >> "$GITHUB_OUTPUT"
+
+      # Tagging v0.2.0 while gradle.properties still says 0.1.1 would publish an asset named after
+      # the old version, and every installed copy would go on thinking it is up to date.
+      - name: Check the tag matches mod_version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          if [ "v${{ steps.versions.outputs.mod }}" != "${{ github.ref_name }}" ]; then
+            echo "::error::Tag ${{ github.ref_name }} does not match mod_version ${{ steps.versions.outputs.mod }} in gradle.properties"
+            exit 1
+          fi
+
+      - name: Build
+        run: ./gradlew build --no-daemon
+
+      # The updater finds releases by asset name, so a jar that is named differently, or a stray
+      # second one, is a release that silently breaks updating.
+      - name: Check the built jar
+        run: |
+          jar="build/libs/${{ steps.versions.outputs.jar }}"
+
+          if [ ! -f "$jar" ]; then
+            echo "::error::Expected $jar; build/libs holds:"
+            ls -1 build/libs
+            exit 1
+          fi
+
+          built=$(ls -1 build/libs/*.jar | grep -v -- '-sources\.jar$' | wc -l)
+
+          if [ "$built" -ne 1 ]; then
+            echo "::error::Expected exactly one mod jar in build/libs, found $built"
+            ls -1 build/libs
+            exit 1
+          fi
+
+          declared=$(unzip -p "$jar" fabric.mod.json | jq -r .version)
+
+          if [ "$declared" != "${{ steps.versions.outputs.mod }}+${{ steps.versions.outputs.minecraft }}" ]; then
+            echo "::error::Jar declares version $declared, which does not match its file name"
+            exit 1
+          fi
+
+          echo "$jar declares $declared"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.versions.outputs.jar }}
+          path: build/libs/${{ steps.versions.outputs.jar }}
+
+      - name: Draft the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ github.ref_name }}"
+          jar="build/libs/${{ steps.versions.outputs.jar }}"
+
+          if gh release view "$tag" > /dev/null 2>&1; then
+            gh release upload "$tag" "$jar" --clobber
+            echo "Attached $jar to the existing release $tag."
+          else
+            gh release create "$tag" "$jar" \
+              --draft \
+              --prerelease \
+              --title "dyeutils ${{ steps.versions.outputs.mod }} for ${{ steps.versions.outputs.minecraft }}" \
+              --notes "_Write the release notes here, then publish._"
+
+            echo "Drafted $tag. Write the notes and publish it when ready."
+          fi

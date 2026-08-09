@@ -11,6 +11,7 @@ import dev.zoobooo.dyeutils.config.DyeUtilsConfigScreen;
 import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
 import dev.zoobooo.dyeutils.party.PartyInviter;
 import dev.zoobooo.dyeutils.party.PartyListCommand;
+import dev.zoobooo.dyeutils.update.AutoUpdater;
 import dev.zoobooo.dyeutils.util.MessageScheduler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -38,6 +39,7 @@ public class DyeUtils implements ClientModInitializer {
 	public void onInitializeClient() {
 		DyeUtilsConfig.load();
 		DyeUtilsKeys.init();
+		AutoUpdater.start();
 
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
 				literal(NAMESPACE)
