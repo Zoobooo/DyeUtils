@@ -12,17 +12,22 @@ import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
 import dev.zoobooo.dyeutils.party.PartyInviteQueue;
 import dev.zoobooo.dyeutils.party.PartyInviter;
 import dev.zoobooo.dyeutils.party.PartyListCommand;
+import dev.zoobooo.dyeutils.rift.BacteDebugCommand;
+import dev.zoobooo.dyeutils.rift.BacteTracker;
+import dev.zoobooo.dyeutils.rift.DyeSlimeRenderer;
 import dev.zoobooo.dyeutils.update.AutoUpdater;
 import dev.zoobooo.dyeutils.util.MessageScheduler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntityType;
 
 import org.slf4j.Logger;
 
@@ -46,7 +51,10 @@ public class DyeUtils implements ClientModInitializer {
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
 				literal(NAMESPACE)
 						.executes(context -> openScreenLater(DyeUtilsConfigScreen.create(null)))
-						.then(PartyListCommand.build())));
+						.then(PartyListCommand.build())
+						.then(BacteDebugCommand.build())));
+
+		EntityRendererRegistry.register(EntityType.SLIME, DyeSlimeRenderer::new);
 
 		ClientTickEvents.END_CLIENT_TICK.register(DyeUtils::onEndTick);
 
@@ -69,6 +77,7 @@ public class DyeUtils implements ClientModInitializer {
 
 		PartyInviteQueue.INSTANCE.tick();
 		MessageScheduler.INSTANCE.tick();
+		BacteTracker.INSTANCE.tick(client);
 
 		Screen pending = PENDING_SCREENS.poll();
 		if (pending != null) client.setScreen(pending);

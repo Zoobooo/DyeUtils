@@ -14,6 +14,10 @@ is still working is ignored.
 
 **party warp**: a second hotkey that sends `!warp` in party chat.
 
+**bacte as a dye**: bacte, the rift colosseum boss, is rendered as the celadon dye he drops instead
+of a slime. he is recognised from his nametag through all five phases, from `B` up to `Bacte`, so it
+holds for the whole fight. globowls and every other slime are left alone.
+
 both hotkeys are unbound by default. set them in the mod's config screen or under
 options, controls, key binds.
 
