@@ -38,6 +38,7 @@
   "dyeutils.message.droppedEntries": "Skipped %s invalid or duplicate name(s).",
   "dyeutils.message.added": "Added %s to the party list.",
   "dyeutils.message.removed": "Removed %s from the party list.",
+  "dyeutils.message.cleared": "Cleared %s player(s).",
   "dyeutils.message.alreadyOnList": "%s is already on the party list.",
   "dyeutils.message.notOnList": "%s is not on the party list.",
   "dyeutils.message.invalidIgn": "\"%s\" is not a valid username (3-16 letters, numbers or underscores).",

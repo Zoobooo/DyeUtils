@@ -32,6 +32,10 @@ public class PartyList {
 		return true;
 	}
 
+	public static void clear() {
+		set(List.of());
+	}
+
 	public static boolean remove(String ign) {
 		List<String> members = new ArrayList<>(get());
 		int index = indexOf(members, ign);

@@ -26,7 +26,9 @@ public class PartyListCommand {
 				.then(literal("remove")
 						.then(argument("ign", StringArgumentType.word())
 								.suggests((context, builder) -> SharedSuggestionProvider.suggest(PartyList.get(), builder))
-								.executes(context -> remove(context, StringArgumentType.getString(context, "ign")))));
+								.executes(context -> remove(context, StringArgumentType.getString(context, "ign")))))
+				.then(literal("clear")
+						.executes(PartyListCommand::clear));
 	}
 
 	private static int show(CommandContext<FabricClientCommandSource> context) {
@@ -49,6 +51,19 @@ public class PartyListCommand {
 			DyeUtils.feedback(Component.translatable("dyeutils.message.alreadyOnList", ign));
 		} else {
 			DyeUtils.feedback(Component.translatable("dyeutils.message.invalidIgn", ign));
+		}
+
+		return Command.SINGLE_SUCCESS;
+	}
+
+	private static int clear(CommandContext<FabricClientCommandSource> context) {
+		int size = PartyList.get().size();
+
+		if (size == 0) {
+			DyeUtils.feedback(Component.translatable("dyeutils.message.listEmpty"));
+		} else {
+			PartyList.clear();
+			DyeUtils.feedback(Component.translatable("dyeutils.message.cleared", size));
 		}
 
 		return Command.SINGLE_SUCCESS;

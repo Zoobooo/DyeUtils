@@ -31,6 +31,7 @@ the party list can also be edited from chat:
 /dyeutils playerlist               show the current list
 /dyeutils playerlist add <ign>
 /dyeutils playerlist remove <ign>
+/dyeutils playerlist clear         empty the list
 ```
 
 under advanced you can change the command the names are appended to. it defaults to `/p invite `,
