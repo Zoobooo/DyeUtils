@@ -23,6 +23,7 @@ public class DyeUtilsConfig {
 	public List<String> partyMembers = new ArrayList<>();
 	public String inviteCommandPrefix = "/p invite ";
 	public boolean hideCommandsFromChat = true;
+	public boolean bacteSkin = true;
 
 	public static ConfigManager<DyeUtilsConfig> manager() {
 		return MANAGER;

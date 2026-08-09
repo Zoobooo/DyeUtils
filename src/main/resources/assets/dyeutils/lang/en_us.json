@@ -5,7 +5,7 @@
 
   "dyeutils.config.title": "DyeUtils",
 
-  "dyeutils.config.category.party": "Party",
+  "dyeutils.config.category.celadon": "Celadon",
 
   "dyeutils.config.partyMembers": "Party List",
   "dyeutils.config.partyMembers.desc": "The players invited when you press the Invite Party List hotkey.",
@@ -25,6 +25,11 @@
   "dyeutils.config.hotkey.invite.desc": "Invites every IGN on the list. Hypixel only accepts 5 invites per command, so longer lists are sent as several commands half a second apart.",
   "dyeutils.config.hotkey.warp": "Party Warp",
   "dyeutils.config.hotkey.warp.desc": "Sends !warp in party chat.",
+
+  "dyeutils.config.group.bacte": "Bacte",
+  "dyeutils.config.group.bacte.desc": "Bacte is the Rift Colosseum boss that drops the Celadon Dye.",
+  "dyeutils.config.bacteSkin": "Show Bacte as a Dye",
+  "dyeutils.config.bacteSkin.desc": "Renders Bacte as the Celadon Dye he drops instead of a slime, for all five phases of the fight.\n\nGlobowls and every other slime are left alone.",
 
   "dyeutils.config.group.advanced": "Advanced",
   "dyeutils.config.inviteCommandPrefix": "Invite Command",

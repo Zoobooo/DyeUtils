@@ -64,7 +64,8 @@ public class BacteDebugCommand {
 			return Command.SINGLE_SUCCESS;
 		}
 
-		DyeUtils.feedback(Component.literal(lines.size() + " nearby entity(s):"));
+		DyeUtils.feedback(Component.literal(lines.size() + " nearby entity(s), Bacte skin "
+				+ (DyeUtils.config().bacteSkin ? "on" : "OFF") + ":"));
 
 		for (String line : lines.subList(0, Math.min(lines.size(), MAX_LINES))) {
 			DyeUtils.feedback(Component.literal(line).withStyle(ChatFormatting.WHITE));

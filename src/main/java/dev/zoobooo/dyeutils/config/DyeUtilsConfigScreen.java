@@ -24,10 +24,11 @@ public class DyeUtilsConfigScreen {
 		return DandelionConfigScreen.create(DyeUtilsConfig.manager(), (defaults, config, builder) -> builder
 				.title(Component.translatable("dyeutils.config.title"))
 				.category(ConfigCategory.createBuilder()
-						.id(DyeUtils.id("config/party"))
-						.name(Component.translatable("dyeutils.config.category.party"))
+						.id(DyeUtils.id("config/celadon"))
+						.name(Component.translatable("dyeutils.config.category.celadon"))
 						.group(memberList())
 						.group(hotkeys())
+						.group(bacte(defaults, config))
 						.group(advanced(defaults, config))
 						.build()))
 				.generateScreen(parent, ConfigType.MOUL_CONFIG);
@@ -64,6 +65,24 @@ public class DyeUtilsConfigScreen {
 				.name(Component.translatable("dyeutils.config.hotkey." + name))
 				.description(Component.translatable("dyeutils.config.hotkey." + name + ".desc"))
 				.keyMapping(mapping)
+				.build();
+	}
+
+	private static OptionGroup bacte(DyeUtilsConfig defaults, DyeUtilsConfig config) {
+		return OptionGroup.createBuilder()
+				.id(DyeUtils.id("config/bacte"))
+				.name(Component.translatable("dyeutils.config.group.bacte"))
+				.description(Component.translatable("dyeutils.config.group.bacte.desc"))
+				.option(Option.<Boolean>createBuilder()
+						.id(DyeUtils.id("config/bacte_skin"))
+						.name(Component.translatable("dyeutils.config.bacteSkin"))
+						.description(Component.translatable("dyeutils.config.bacteSkin.desc"))
+						.binding(defaults.bacteSkin, () -> config.bacteSkin, value -> config.bacteSkin = value)
+						.controller(BooleanController.createBuilder()
+								.booleanStyle(BooleanController.BooleanStyle.ON_OFF)
+								.coloured(true)
+								.build())
+						.build())
 				.build();
 	}
 

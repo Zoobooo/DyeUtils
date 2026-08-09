@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import dev.zoobooo.dyeutils.DyeUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
@@ -26,7 +27,7 @@ public final class BacteTracker {
 	}
 
 	public void tick(Minecraft client) {
-		if (client.level == null) {
+		if (client.level == null || !DyeUtils.config().bacteSkin) {
 			bacteIds.clear();
 			ticks = 0;
 
@@ -40,6 +41,9 @@ public final class BacteTracker {
 	}
 
 	public boolean isBacte(Slime slime) {
+		// Checked here so the toggle takes hold on the next frame, not the next scan.
+		if (!DyeUtils.config().bacteSkin) return false;
+
 		return named(slime) || bacteIds.contains(slime.getId());
 	}
 
