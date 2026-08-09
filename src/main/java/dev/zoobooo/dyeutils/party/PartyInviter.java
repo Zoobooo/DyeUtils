@@ -14,9 +14,6 @@ public class PartyInviter {
 	private static final int MAX_INVITES_PER_COMMAND = 5;
 	private static final int MAX_COMMAND_LENGTH = 256;
 
-	// 200ms is not enough for a run of party commands; Skyblocker's reparty uses 10 ticks too.
-	private static final long INVITE_GAP_MS = 500L;
-
 	private static final String DEFAULT_PREFIX = "/p invite ";
 	private static final String WARP_COMMAND = "/pc !warp";
 
@@ -32,13 +29,8 @@ public class PartyInviter {
 			return;
 		}
 
-		List<String> commands = buildCommands(normalisePrefix(DyeUtilsConfig.get().inviteCommandPrefix), members);
-
-		for (String command : commands) {
-			MessageScheduler.INSTANCE.queue(command, INVITE_GAP_MS);
-		}
-
-		DyeUtils.feedback(Component.translatable("dyeutils.message.invited", members.size(), commands.size()));
+		// Pressing again mid-run is ignored rather than restarting.
+		if (!PartyInviteQueue.INSTANCE.start(members)) return;
 
 		int dropped = configured.size() - members.size();
 		if (dropped > 0) {
@@ -62,14 +54,16 @@ public class PartyInviter {
 		return trimmed + " ";
 	}
 
-	static List<String> buildCommands(String prefix, List<String> names) {
+	static List<String> buildCommands(String prefix, List<String> names, int maxPerCommand) {
+		int perCommand = Math.min(Math.max(maxPerCommand, 1), MAX_INVITES_PER_COMMAND);
+
 		List<String> commands = new ArrayList<>();
 		StringBuilder current = new StringBuilder(prefix);
 		int inCurrent = 0;
 
 		for (String name : names) {
 			int cost = inCurrent == 0 ? name.length() : name.length() + 1;
-			boolean full = inCurrent >= MAX_INVITES_PER_COMMAND || current.length() + cost > MAX_COMMAND_LENGTH;
+			boolean full = inCurrent >= perCommand || current.length() + cost > MAX_COMMAND_LENGTH;
 
 			if (inCurrent > 0 && full) {
 				commands.add(current.toString());

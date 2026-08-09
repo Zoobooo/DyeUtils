@@ -9,6 +9,7 @@ import com.mojang.logging.LogUtils;
 import dev.zoobooo.dyeutils.config.DyeUtilsConfig;
 import dev.zoobooo.dyeutils.config.DyeUtilsConfigScreen;
 import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
+import dev.zoobooo.dyeutils.party.PartyInviteQueue;
 import dev.zoobooo.dyeutils.party.PartyInviter;
 import dev.zoobooo.dyeutils.party.PartyListCommand;
 import dev.zoobooo.dyeutils.update.AutoUpdater;
@@ -16,6 +17,7 @@ import dev.zoobooo.dyeutils.util.MessageScheduler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -48,6 +50,11 @@ public class DyeUtils implements ClientModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(DyeUtils::onEndTick);
 
+		// Overlay messages are the action bar, never party chatter.
+		ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
+			if (!overlay) PartyInviteQueue.INSTANCE.onGameMessage(message);
+		});
+
 		LOGGER.info("[DyeUtils] Initialised.");
 	}
 
@@ -60,6 +67,7 @@ public class DyeUtils implements ClientModInitializer {
 			PartyInviter.warp();
 		}
 
+		PartyInviteQueue.INSTANCE.tick();
 		MessageScheduler.INSTANCE.tick();
 
 		Screen pending = PENDING_SCREENS.poll();

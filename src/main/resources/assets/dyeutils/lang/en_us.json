@@ -33,7 +33,10 @@
   "dyeutils.config.hideCommandsFromChat.desc": "When off, the commands DyeUtils sends are added to your chat history so you can recall them with the up arrow.",
 
   "dyeutils.message.emptyList": "Your party list is empty. Add some IGNs with /dyeutils first.",
-  "dyeutils.message.invited": "Inviting %s player(s) in %s command(s).",
+  "dyeutils.message.invited": "Inviting %s player(s).",
+  "dyeutils.message.invitesPending": "Hypixel is holding the rest until people join. %s left to invite.",
+  "dyeutils.message.allJoined": "All %s player(s) joined.",
+  "dyeutils.message.neverJoined": "Finished. %s player(s) never joined: %s",
   "dyeutils.message.warping": "Asking the party to warp.",
   "dyeutils.message.droppedEntries": "Skipped %s invalid or duplicate name(s).",
   "dyeutils.message.added": "Added %s to the party list.",

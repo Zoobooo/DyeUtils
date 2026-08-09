@@ -4,8 +4,13 @@ a client-side fabric mod for hypixel skyblock, built to take some of the busywor
 
 ## features
 
-**party inviter**: keep a list of igns and invite all of them with one keypress. hypixel caps invites
-at five per command, so longer lists are split into batches sent half a second apart.
+**party inviter**: keep a list of igns and invite all of them with one keypress.
+
+hypixel refuses any invite command issued while five or more invites are already outstanding, so a
+long list cannot go out at once. the mod sends four, then four more, then waits and watches party
+chat, sending the next four as soon as enough invites resolve, either people joining or invites
+lapsing after a minute. you get told who never joined at the end. pressing the hotkey again while it
+is still working is ignored.
 
 **party warp**: a second hotkey that sends `!warp` in party chat.
 
