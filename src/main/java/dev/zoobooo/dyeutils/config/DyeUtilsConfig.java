@@ -24,6 +24,7 @@ public class DyeUtilsConfig {
 	public String inviteCommandPrefix = "/p invite ";
 	public boolean hideCommandsFromChat = true;
 	public boolean bacteSkin = true;
+	public boolean autoDisband = true;
 
 	public static ConfigManager<DyeUtilsConfig> manager() {
 		return MANAGER;

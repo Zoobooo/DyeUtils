@@ -31,6 +31,9 @@
   "dyeutils.config.bacteSkin": "Show Bacte as a Dye",
   "dyeutils.config.bacteSkin.desc": "Renders Bacte as the Celadon Dye he drops instead of a slime, for all five phases of the fight.\n\nGlobowls and every other slime are left alone.",
 
+  "dyeutils.config.autoDisband": "Disband After Bacte",
+  "dyeutils.config.autoDisband.desc": "Runs /p disband when Hypixel announces Bacte is down, so the next group can be invited straight away.\n\nOnly Hypixel's own announcement counts. Someone typing it in chat does nothing.",
+
   "dyeutils.config.group.advanced": "Advanced",
   "dyeutils.config.inviteCommandPrefix": "Invite Command",
   "dyeutils.config.inviteCommandPrefix.desc": "The command the IGNs are appended to. Hypixel documents /p invite <a> <b> <c> for inviting several players at once.\n\nChange this to \"/p \" if you prefer the shorthand.",
@@ -43,6 +46,7 @@
   "dyeutils.message.allJoined": "All %s player(s) joined.",
   "dyeutils.message.neverJoined": "Finished. %s player(s) never joined: %s",
   "dyeutils.message.warping": "Asking the party to warp.",
+  "dyeutils.message.disbanding": "Bacte is down. Disbanding the party.",
   "dyeutils.message.droppedEntries": "Skipped %s invalid or duplicate name(s).",
   "dyeutils.message.added": "Added %s to the party list.",
   "dyeutils.message.removed": "Removed %s from the party list.",

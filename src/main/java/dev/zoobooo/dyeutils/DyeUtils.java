@@ -12,10 +12,9 @@ import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
 import dev.zoobooo.dyeutils.party.PartyInviteQueue;
 import dev.zoobooo.dyeutils.party.PartyInviter;
 import dev.zoobooo.dyeutils.party.PartyListCommand;
-import dev.zoobooo.dyeutils.rift.BacteDebugCommand;
+import dev.zoobooo.dyeutils.rift.AutoDisband;
 import dev.zoobooo.dyeutils.rift.BacteTracker;
 import dev.zoobooo.dyeutils.rift.DyeSlimeRenderer;
-import dev.zoobooo.dyeutils.update.AutoUpdater;
 import dev.zoobooo.dyeutils.util.MessageScheduler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -46,13 +45,11 @@ public class DyeUtils implements ClientModInitializer {
 	public void onInitializeClient() {
 		DyeUtilsConfig.load();
 		DyeUtilsKeys.init();
-		AutoUpdater.start();
 
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
 				literal(NAMESPACE)
 						.executes(context -> openScreenLater(DyeUtilsConfigScreen.create(null)))
-						.then(PartyListCommand.build())
-						.then(BacteDebugCommand.build())));
+						.then(PartyListCommand.build())));
 
 		EntityRendererRegistry.register(EntityType.SLIME, DyeSlimeRenderer::new);
 
@@ -60,7 +57,10 @@ public class DyeUtils implements ClientModInitializer {
 
 		// Overlay messages are the action bar, never party chatter.
 		ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
-			if (!overlay) PartyInviteQueue.INSTANCE.onGameMessage(message);
+			if (overlay) return;
+
+			PartyInviteQueue.INSTANCE.onGameMessage(message);
+			AutoDisband.INSTANCE.onGameMessage(message.getString());
 		});
 
 		LOGGER.info("[DyeUtils] Initialised.");

@@ -83,6 +83,16 @@ public class DyeUtilsConfigScreen {
 								.coloured(true)
 								.build())
 						.build())
+				.option(Option.<Boolean>createBuilder()
+						.id(DyeUtils.id("config/auto_disband"))
+						.name(Component.translatable("dyeutils.config.autoDisband"))
+						.description(Component.translatable("dyeutils.config.autoDisband.desc"))
+						.binding(defaults.autoDisband, () -> config.autoDisband, value -> config.autoDisband = value)
+						.controller(BooleanController.createBuilder()
+								.booleanStyle(BooleanController.BooleanStyle.ON_OFF)
+								.coloured(true)
+								.build())
+						.build())
 				.build();
 	}
 

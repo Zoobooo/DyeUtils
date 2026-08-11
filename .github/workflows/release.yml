@@ -1,8 +1,8 @@
 name: release
 
 # Pushing a v* tag builds the jar and opens a draft release with it already attached. Write the
-# notes on the draft and publish when you are happy with it -- the updater skips drafts, so nobody
-# downloads a release before you have finished with it.
+# notes on the draft and publish when you are happy with it -- a draft is invisible to everyone but
+# you, so nobody downloads a release before you have finished with it.
 on:
   push:
     tags:
@@ -49,8 +49,8 @@ jobs:
           echo "minecraft=$minecraft_version" >> "$GITHUB_OUTPUT"
           echo "jar=dyeutils-$mod_version+$minecraft_version.jar" >> "$GITHUB_OUTPUT"
 
-      # Tagging v0.2.0 while gradle.properties still says 0.1.1 would publish an asset named after
-      # the old version, and every installed copy would go on thinking it is up to date.
+      # Tagging v0.1.2 while gradle.properties still says 0.1.1 would publish an asset named after
+      # the old version, so the release and the jar inside it would disagree.
       - name: Check the tag matches mod_version
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -62,8 +62,8 @@ jobs:
       - name: Build
         run: ./gradlew build --no-daemon
 
-      # The updater finds releases by asset name, so a jar that is named differently, or a stray
-      # second one, is a release that silently breaks updating.
+      # A jar named differently from its release, or a stray second one, leaves whoever downloads it
+      # unable to tell what they actually installed.
       - name: Check the built jar
         run: |
           jar="build/libs/${{ steps.versions.outputs.jar }}"

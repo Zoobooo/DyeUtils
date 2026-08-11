@@ -3,6 +3,7 @@ package dev.zoobooo.dyeutils.rift;
 import com.mojang.logging.LogUtils;
 
 import dev.zoobooo.dyeutils.DyeUtils;
+import dev.zoobooo.dyeutils.util.Failsafe;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SlimeRenderer;
 import net.minecraft.client.renderer.entity.layers.SlimeOuterLayer;
@@ -49,8 +50,14 @@ public class DyeSlimeRenderer extends SlimeRenderer {
 	public void extractRenderState(Slime entity, SlimeRenderState state, float partialTick) {
 		super.extractRenderState(entity, state, partialTick);
 
-		if (state instanceof DyeSlimeRenderState dyeState) {
+		if (!(state instanceof DyeSlimeRenderState dyeState)) return;
+
+		// Runs for every slime, every frame.
+		try {
 			dyeState.isBacte = BacteTracker.INSTANCE.isBacte(entity);
+		} catch (Throwable t) {
+			Failsafe.report("Bacte render state", t);
+			dyeState.isBacte = false;
 		}
 	}
 

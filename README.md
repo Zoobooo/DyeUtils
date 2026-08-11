@@ -18,17 +18,19 @@ is still working is ignored.
 of a slime. he is recognised from his nametag through all five phases, from `B` up to `Bacte`, so it
 holds for the whole fight. globowls and every other slime are left alone.
 
+his nametag floats free of him, so the mod has to work out which slime it belongs to. it takes the
+slime standing directly under the tag, comparing only x and z: bacte pulses between size 1 and 17
+during the fight, so his feet sit anywhere from half a block to eight below his own nametag, and any
+measurement that includes height picks one of the growths sprouting beside him instead. checked
+against a recorded fight, this is right 627 times out of 630, wrong none, and picks nothing at all
+three times.
+
+**disband after bacte**: runs `/p disband` when hypixel announces the kill, so the next group can be
+invited straight away. only hypixel's own announcement counts, not someone typing the words in chat.
+it can be switched off in the config.
+
 both hotkeys are unbound by default. set them in the mod's config screen or under
 options, controls, key binds.
-
-**auto update**, the mod keeps itself up to date from github releases. it checks in the background
-while you play, downloads anything newer that was built for your minecraft version, and swaps the jar
-in when you close the game, so the new version is running the next time you start. there is nothing
-to click and no message in chat.
-
-on windows the jar cannot be renamed while the game holds it open, so the update is written into the
-existing file and the file name keeps the version it was first downloaded as. the version mod menu
-reports is the real one.
 
 ## usage
 
@@ -73,18 +75,19 @@ maven repository. it is the first one with a key mapping option, which the hotke
 bump `mod_version` in `gradle.properties`, commit, then tag and push:
 
 ```
-git tag v0.2.0
-git push origin v0.2.0
+git tag v0.1.2
+git push origin v0.1.2
 ```
 
 `.github/workflows/release.yml` builds the jar and opens a **draft** release with it attached. write
-the notes on the draft and publish when you are ready. the updater ignores drafts, so nothing reaches
-players until you press publish.
+the notes on the draft and publish when you are ready.
 
 the workflow fails the build rather than publishing a bad release if the tag does not match
 `mod_version`, if the jar is not named `dyeutils-<mod version>+<minecraft version>.jar`, or if the
-version inside the jar disagrees with its file name. that name is what the updater matches on, so a
-renamed asset silently stops every installed copy from updating.
+version inside the jar disagrees with its file name, so a release can never claim to be a version
+it is not.
+
+the mod does not update itself. new versions are downloaded and installed by hand.
 
 ## notes
 
