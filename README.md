@@ -12,6 +12,12 @@ chat, sending the next four as soon as enough invites resolve, either people joi
 lapsing after a minute. you get told who never joined at the end. pressing the hotkey again while it
 is still working is ignored.
 
+**favourites**: a second, permanent list of the people you group with often. the party list gets
+rewritten every time you put a different group together; favourites does not. star a name on the
+party list to add them, and put any of them back on the party list with one button.
+
+both screens have a search box, and both show each player's head next to their name.
+
 **party warp**: a second hotkey that sends `!warp` in party chat.
 
 **bacte as a dye**: bacte, the rift colosseum boss, is rendered as the celadon dye he drops instead
@@ -43,10 +49,37 @@ the party list can also be edited from chat:
 /dyeutils playerlist add <ign>
 /dyeutils playerlist remove <ign>
 /dyeutils playerlist clear         empty the list
+
+/dyeutils favourites               show your favourites
+/dyeutils favourites add <ign>
+/dyeutils favourites remove <ign>
+/dyeutils favourites clear
 ```
 
 under advanced you can change the command the names are appended to. it defaults to `/p invite `,
 which is the form hypixel documents for inviting several people at once.
+
+## the network
+
+**player heads are the only thing in this mod that touches the network,** and they are always on.
+
+the usernames on your party list and favourites are sent to
+[mowojang.matdoes.dev](https://mowojang.matdoes.dev), a public read-only mirror of mojang's profile
+api, to find out whose skin is whose. it is used rather than mojang directly because mojang rate
+limits profile lookups to about one per player per minute, which a screen full of names hits
+immediately. firmament does the same thing for the same reason.
+
+each name is looked up once per session, only while one of those screens is open, and the whole list
+goes in a single request. the skin image itself is downloaded by minecraft from mojang's own servers,
+through the same cache it uses for anyone you stand next to. this mod does not handle it. a name
+that cannot be looked up keeps the default skin and is not asked about again. if the lookups fail
+repeatedly they stop for the session.
+
+nothing about you is sent. no account, no session, no login, no id of yours, only the usernames you
+typed in yourself.
+
+**this is not the auto updater coming back.** the mod does not download code, and does not replace its
+own jar. new versions are still installed by hand.
 
 ## requirements
 

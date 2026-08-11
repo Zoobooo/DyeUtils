@@ -18,7 +18,7 @@ import org.jspecify.annotations.Nullable;
 public final class BacteTracker {
 	private static final int SCAN_INTERVAL_TICKS = 10;
 
-	/** Tight on purpose: at 2 blocks the growths around Bacte start qualifying. */
+	/** Kept tight: at 2 blocks the growths around Bacte start qualifying. */
 	private static final double OVERHEAD_RADIUS = 0.5;
 
 	public static final BacteTracker INSTANCE = new BacteTracker();

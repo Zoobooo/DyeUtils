@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.zoobooo.dyeutils.DyeUtils;
 import dev.zoobooo.dyeutils.config.DyeUtilsConfig;
+import dev.zoobooo.dyeutils.util.Ign;
 import dev.zoobooo.dyeutils.util.MessageScheduler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -22,7 +23,7 @@ public class PartyInviter {
 		if (client.player == null) return;
 
 		List<String> configured = DyeUtilsConfig.get().partyMembers;
-		List<String> members = DyeUtilsConfig.sanitise(configured);
+		List<String> members = Ign.sanitise(configured);
 
 		if (members.isEmpty()) {
 			DyeUtils.feedback(Component.translatable("dyeutils.message.emptyList"));

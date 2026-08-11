@@ -55,6 +55,16 @@ dependencies {
 
 	implementation "net.fabricmc:fabric-language-kotlin:${project.flk_version}"
 	compileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+
+	// The tests cover the pure decision-making only -- pacing, name matching, response parsing -- so
+	// they need no Minecraft at runtime and run in a plain JVM.
+	testImplementation platform("org.junit:junit-bom:${project.junit_version}")
+	testImplementation "org.junit.jupiter:junit-jupiter"
+	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+test {
+	useJUnitPlatform()
 }
 
 processResources {

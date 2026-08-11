@@ -1,6 +1,7 @@
 package dev.zoobooo.dyeutils.config;
 
 import dev.zoobooo.dyeutils.DyeUtils;
+import dev.zoobooo.dyeutils.gui.FavouritesScreen;
 import dev.zoobooo.dyeutils.gui.PartyListScreen;
 import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
 import net.azureaaron.dandelion.api.ButtonOption;
@@ -26,7 +27,7 @@ public class DyeUtilsConfigScreen {
 				.category(ConfigCategory.createBuilder()
 						.id(DyeUtils.id("config/celadon"))
 						.name(Component.translatable("dyeutils.config.category.celadon"))
-						.group(memberList())
+						.group(party(defaults, config))
 						.group(hotkeys())
 						.group(bacte(defaults, config))
 						.group(advanced(defaults, config))
@@ -34,17 +35,34 @@ public class DyeUtilsConfigScreen {
 				.generateScreen(parent, ConfigType.MOUL_CONFIG);
 	}
 
-	private static OptionGroup memberList() {
+	private static OptionGroup party(DyeUtilsConfig defaults, DyeUtilsConfig config) {
 		return OptionGroup.createBuilder()
-				.id(DyeUtils.id("config/party_members"))
-				.name(Component.translatable("dyeutils.config.partyMembers"))
-				.description(Component.translatable("dyeutils.config.partyMembers.desc"))
+				.id(DyeUtils.id("config/party"))
+				.name(Component.translatable("dyeutils.config.group.party"))
+				.description(Component.translatable("dyeutils.config.group.party.desc"))
 				.option(ButtonOption.createBuilder()
 						.id(DyeUtils.id("config/edit_party_members"))
 						.name(Component.translatable("dyeutils.config.partyMembers.edit"))
 						.description(Component.translatable("dyeutils.config.partyMembers.edit.desc"))
 						.prompt(Component.translatable("dyeutils.config.partyMembers.editPrompt"))
 						.action(screen -> Minecraft.getInstance().setScreen(new PartyListScreen(screen)))
+						.build())
+				.option(ButtonOption.createBuilder()
+						.id(DyeUtils.id("config/edit_favourites"))
+						.name(Component.translatable("dyeutils.config.favourites.edit"))
+						.description(Component.translatable("dyeutils.config.favourites.edit.desc"))
+						.prompt(Component.translatable("dyeutils.config.partyMembers.editPrompt"))
+						.action(screen -> Minecraft.getInstance().setScreen(new FavouritesScreen(screen)))
+						.build())
+				.option(Option.<Boolean>createBuilder()
+						.id(DyeUtils.id("config/auto_disband"))
+						.name(Component.translatable("dyeutils.config.autoDisband"))
+						.description(Component.translatable("dyeutils.config.autoDisband.desc"))
+						.binding(defaults.autoDisband, () -> config.autoDisband, value -> config.autoDisband = value)
+						.controller(BooleanController.createBuilder()
+								.booleanStyle(BooleanController.BooleanStyle.ON_OFF)
+								.coloured(true)
+								.build())
 						.build())
 				.build();
 	}
@@ -78,16 +96,6 @@ public class DyeUtilsConfigScreen {
 						.name(Component.translatable("dyeutils.config.bacteSkin"))
 						.description(Component.translatable("dyeutils.config.bacteSkin.desc"))
 						.binding(defaults.bacteSkin, () -> config.bacteSkin, value -> config.bacteSkin = value)
-						.controller(BooleanController.createBuilder()
-								.booleanStyle(BooleanController.BooleanStyle.ON_OFF)
-								.coloured(true)
-								.build())
-						.build())
-				.option(Option.<Boolean>createBuilder()
-						.id(DyeUtils.id("config/auto_disband"))
-						.name(Component.translatable("dyeutils.config.autoDisband"))
-						.description(Component.translatable("dyeutils.config.autoDisband.desc"))
-						.binding(defaults.autoDisband, () -> config.autoDisband, value -> config.autoDisband = value)
 						.controller(BooleanController.createBuilder()
 								.booleanStyle(BooleanController.BooleanStyle.ON_OFF)
 								.coloured(true)

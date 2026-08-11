@@ -9,6 +9,7 @@ import com.mojang.logging.LogUtils;
 import dev.zoobooo.dyeutils.config.DyeUtilsConfig;
 import dev.zoobooo.dyeutils.config.DyeUtilsConfigScreen;
 import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
+import dev.zoobooo.dyeutils.party.FavouritesCommand;
 import dev.zoobooo.dyeutils.party.PartyInviteQueue;
 import dev.zoobooo.dyeutils.party.PartyInviter;
 import dev.zoobooo.dyeutils.party.PartyListCommand;
@@ -49,7 +50,8 @@ public class DyeUtils implements ClientModInitializer {
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
 				literal(NAMESPACE)
 						.executes(context -> openScreenLater(DyeUtilsConfigScreen.create(null)))
-						.then(PartyListCommand.build())));
+						.then(PartyListCommand.build())
+						.then(FavouritesCommand.build())));
 
 		EntityRendererRegistry.register(EntityType.SLIME, DyeSlimeRenderer::new);
 

@@ -7,17 +7,37 @@
 
   "dyeutils.config.category.celadon": "Celadon",
 
-  "dyeutils.config.partyMembers": "Party List",
-  "dyeutils.config.partyMembers.desc": "The players invited when you press the Invite Party List hotkey.",
+  "dyeutils.config.group.party": "Party",
+  "dyeutils.config.group.party.desc": "The list the invite hotkey sends to, the people you group with often, and what happens once Bacte is down.",
   "dyeutils.config.partyMembers.edit": "Edit Party List",
   "dyeutils.config.partyMembers.edit.desc": "Add and remove the players to invite.\n\nYou can also use /dyeutils playerlist add <ign> and /dyeutils playerlist remove <ign>.",
   "dyeutils.config.partyMembers.editPrompt": "Open",
+  "dyeutils.config.favourites.edit": "Edit Favourites",
+  "dyeutils.config.favourites.edit.desc": "The players you group with often, kept between sessions and separate from the party list.\n\nStar someone on the party list to add them, or use /dyeutils favourites add <ign>.",
+
+  "dyeutils.roster.search": "Search",
+  "dyeutils.roster.add": "Add",
+  "dyeutils.roster.addHint": "Type a username that is not on the list already.",
 
   "dyeutils.partyList.title": "Party List",
+  "dyeutils.partyList.searchHint": "Search, or type a name to add",
+  "dyeutils.partyList.noMatches": "No players match \"%s\".",
   "dyeutils.partyList.ign": "IGN",
   "dyeutils.partyList.add": "+ Add Player",
   "dyeutils.partyList.remove": "Remove",
   "dyeutils.partyList.empty": "No players yet. Use + Add Player below.",
+  "dyeutils.partyList.favourites": "Favourites",
+  "dyeutils.partyList.star": "Star",
+  "dyeutils.partyList.unstar": "Unstar",
+  "dyeutils.partyList.starHint": "Finish typing a valid username to star it.",
+
+  "dyeutils.favourites.title": "Favourites",
+  "dyeutils.favourites.searchHint": "Search, or type a name to add",
+  "dyeutils.favourites.addToParty": "+ Party",
+  "dyeutils.favourites.alreadyOnParty": "Already on your party list.",
+  "dyeutils.favourites.remove": "Remove",
+  "dyeutils.favourites.empty": "No favourites yet. Star a name on the party list.",
+  "dyeutils.favourites.noMatches": "No favourites match \"%s\".",
 
   "dyeutils.config.group.hotkeys": "Hotkeys",
   "dyeutils.config.group.hotkeys.desc": "These are ordinary Minecraft key binds, so they also show up under Options → Controls → Key Binds and may be bound to any key or mouse button.",
@@ -54,6 +74,12 @@
   "dyeutils.message.alreadyOnList": "%s is already on the party list.",
   "dyeutils.message.notOnList": "%s is not on the party list.",
   "dyeutils.message.invalidIgn": "\"%s\" is not a valid username (3-16 letters, numbers or underscores).",
+  "dyeutils.message.favouriteAdded": "Added %s to your favourites.",
+  "dyeutils.message.favouriteRemoved": "Removed %s from your favourites.",
+  "dyeutils.message.notFavourite": "%s is not one of your favourites.",
+  "dyeutils.message.favouritesList": "Favourites (%s): %s",
+  "dyeutils.message.favouritesEmpty": "You have no favourites yet.",
+  "dyeutils.message.favouritesCleared": "Cleared %s favourite(s).",
   "dyeutils.message.list": "Party list (%s): %s",
   "dyeutils.message.listEmpty": "Your party list is empty."
 }

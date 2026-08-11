@@ -4,16 +4,16 @@ import java.util.List;
 
 import dev.zoobooo.dyeutils.config.DyeUtilsConfig;
 
-public class PartyList {
+public class Favourites {
 	private static final NameList STORE =
-			new NameList(() -> DyeUtilsConfig.get().partyMembers, DyeUtilsConfig::setPartyMembers);
+			new NameList(() -> DyeUtilsConfig.get().favourites, DyeUtilsConfig::setFavourites);
 
 	public static List<String> get() {
 		return STORE.get();
 	}
 
-	public static void set(List<String> members) {
-		STORE.set(members);
+	public static void set(List<String> names) {
+		STORE.set(names);
 	}
 
 	public static boolean contains(String ign) {
@@ -30,5 +30,9 @@ public class PartyList {
 
 	public static boolean remove(String ign) {
 		return STORE.remove(ign);
+	}
+
+	public static boolean toggle(String ign) {
+		return STORE.toggle(ign);
 	}
 }
