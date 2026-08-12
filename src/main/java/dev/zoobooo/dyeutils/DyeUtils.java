@@ -10,6 +10,7 @@ import dev.zoobooo.dyeutils.config.DyeUtilsConfig;
 import dev.zoobooo.dyeutils.config.DyeUtilsConfigScreen;
 import dev.zoobooo.dyeutils.keybind.DyeUtilsKeys;
 import dev.zoobooo.dyeutils.party.FavouritesCommand;
+import dev.zoobooo.dyeutils.party.PartyDropOut;
 import dev.zoobooo.dyeutils.party.PartyInviteQueue;
 import dev.zoobooo.dyeutils.party.PartyInviter;
 import dev.zoobooo.dyeutils.party.PartyListCommand;
@@ -62,6 +63,7 @@ public class DyeUtils implements ClientModInitializer {
 			if (overlay) return;
 
 			PartyInviteQueue.INSTANCE.onGameMessage(message);
+			PartyDropOut.INSTANCE.onGameMessage(message.getString());
 			AutoDisband.INSTANCE.onGameMessage(message.getString());
 		});
 

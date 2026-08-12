@@ -2,6 +2,7 @@ package dev.zoobooo.dyeutils.util;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 import dev.zoobooo.dyeutils.DyeUtils;
 import net.minecraft.client.Minecraft;
@@ -26,6 +27,11 @@ public class MessageScheduler {
 
 	public void queue(String message, long gapMs) {
 		queue.add(new Pending(message, Math.max(MIN_DELAY_MS, gapMs)));
+	}
+
+	/** Selective, so one caller changing its mind does not unsend everybody else's. */
+	public void dropQueued(Predicate<String> matching) {
+		queue.removeIf(pending -> matching.test(pending.message()));
 	}
 
 	public void tick() {

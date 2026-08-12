@@ -71,6 +71,35 @@ class InvitePacerTest {
 	}
 
 	@Test
+	void aDroppedNameIsNeverInvited() {
+		pacer.start(List.of("a1", "a2", "a3", "a4", "b1"));
+		pacer.pollBatch(0L);
+
+		assertTrue(pacer.drop("B1"), "matched regardless of case");
+		assertEquals(0, pacer.remainingCount());
+		assertEquals(List.of(), pacer.pollBatch(InvitePacer.INVITE_TTL_MS + 1));
+	}
+
+	@Test
+	void someoneWhoDroppedOutIsNotReportedAsNeverJoining() {
+		pacer.start(List.of("a1", "a2"));
+		pacer.pollBatch(0L);
+
+		pacer.onJoined("a1");
+		pacer.drop("a2");
+
+		assertEquals(List.of(), pacer.neverJoined());
+	}
+
+	@Test
+	void droppingSomeoneWhoIsNotInTheRunChangesNothing() {
+		pacer.start(List.of("a1"));
+
+		assertFalse(pacer.drop("b1"));
+		assertEquals(1, pacer.remainingCount());
+	}
+
+	@Test
 	void startIsRefusedWhileARunIsGoing() {
 		assertTrue(pacer.start(List.of("a1")));
 		assertFalse(pacer.start(List.of("b1")));

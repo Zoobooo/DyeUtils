@@ -98,6 +98,16 @@ final class InvitePacer {
 		blockedUntil = 0L;
 	}
 
+	/** They asked to be left out, so they are not reported either. An invite already sent has to lapse. */
+	boolean drop(String ign) {
+		if (!active) return false;
+
+		boolean queued = remaining.removeIf(name -> name.equalsIgnoreCase(ign));
+		boolean sent = invited.removeIf(name -> name.equalsIgnoreCase(ign));
+
+		return queued || sent;
+	}
+
 	// Slots we did not know about were taken, most likely by invites sent before the run began.
 	void onRefused(long now) {
 		if (!active) return;

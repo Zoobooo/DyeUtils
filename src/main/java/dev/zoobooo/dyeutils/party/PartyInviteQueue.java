@@ -64,8 +64,17 @@ public class PartyInviteQueue {
 		}
 	}
 
+	public boolean drop(String ign) {
+		return pacer.drop(ign);
+	}
+
 	public void onGameMessage(Component message) {
 		String plain = message.getString();
+
+		if (pacer.isActive() && PartyChatParser.isPartyEnded(plain)) {
+			cancel();
+			return;
+		}
 
 		String joinedIgn = PartyChatParser.joinedPlayer(plain);
 
@@ -86,6 +95,21 @@ public class PartyInviteQueue {
 
 		announcedWait = true;
 		DyeUtils.feedback(Component.translatable("dyeutils.message.invitesPending", pacer.remainingCount()));
+	}
+
+	/** No report of who never joined: the run was called off, it had no result. */
+	private void cancel() {
+		int left = pacer.remainingCount();
+
+		pacer.reset();
+
+		// A batch is still sitting in the scheduler. Only ours: auto-disband's /p disband shares it.
+		String prefix = PartyInviter.normalisePrefix(DyeUtilsConfig.get().inviteCommandPrefix);
+		MessageScheduler.INSTANCE.dropQueued(command -> command.startsWith(prefix));
+
+		DyeUtils.feedback(left > 0
+				? Component.translatable("dyeutils.message.partyGone", left)
+				: Component.translatable("dyeutils.message.partyGoneEmpty"));
 	}
 
 	private void finish() {

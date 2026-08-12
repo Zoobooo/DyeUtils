@@ -12,6 +12,10 @@ chat, sending the next four as soon as enough invites resolve, either people joi
 lapsing after a minute. you get told who never joined at the end. pressing the hotkey again while it
 is still working is ignored.
 
+if the party ends while it is still working, the rest of the queue is forgotten rather than sent into
+a party that is not there any more, or into the next one you put together. leaving, disbanding and
+being kicked all count, including the disband the mod itself runs after bacte. this is always on.
+
 **favourites**: a second, permanent list of the people you group with often. the party list gets
 rewritten every time you put a different group together; favourites does not. star a name on the
 party list to add them, and put any of them back on the party list with one button.
@@ -19,6 +23,12 @@ party list to add them, and put any of them back on the party list with one butt
 both screens have a search box, and both show each player's head next to their name.
 
 **party warp**: a second hotkey that sends `!warp` in party chat.
+
+**`!partydt`**: anyone in the party can type `!partydt` in party chat to take themselves off your
+party list, for when they are logging off or done with bacte. they come off the list, and out of an
+invite run that is going on at the time. you get a line telling you who asked. only party chat counts
+and the message has to be nothing but the command, so it cannot be set off from public chat or in
+passing. this is always on.
 
 **bacte as a dye**: bacte, the rift colosseum boss, is rendered as the celadon dye he drops instead
 of a slime. he is recognised from his nametag through all five phases, from `B` up to `Bacte`, so it
