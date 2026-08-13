@@ -20,6 +20,8 @@ public class DyeUtilsConfig {
 	public boolean hideCommandsFromChat = true;
 	public boolean bacteSkin = true;
 	public boolean autoDisband = true;
+	public boolean vincentReveal = true;
+	public int vincentRevealSeconds = 3;
 
 	public static ConfigManager<DyeUtilsConfig> manager() {
 		return MANAGER;

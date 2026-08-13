@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "dev.zoobooo.dyeutils.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"ContainerBackgroundMixin",
+		"ContainerScreenAccessor",
+		"ContainerScreenRenderMixin",
+		"GameRendererAccessor",
+		"GuiGraphicsAccessor",
+		"GuiHudMixin",
+		"GuiRenderStateMixin",
+		"GuiRendererMixin",
+		"ScreenTooltipMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

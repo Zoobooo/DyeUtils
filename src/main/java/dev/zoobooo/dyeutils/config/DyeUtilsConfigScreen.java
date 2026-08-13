@@ -12,6 +12,7 @@ import net.azureaaron.dandelion.api.KeyMappingOption;
 import net.azureaaron.dandelion.api.Option;
 import net.azureaaron.dandelion.api.OptionGroup;
 import net.azureaaron.dandelion.api.controllers.BooleanController;
+import net.azureaaron.dandelion.api.controllers.IntegerController;
 import net.azureaaron.dandelion.api.controllers.StringController;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,11 @@ public class DyeUtilsConfigScreen {
 	public static Screen create(@Nullable Screen parent) {
 		return DandelionConfigScreen.create(DyeUtilsConfig.manager(), (defaults, config, builder) -> builder
 				.title(Component.translatable("dyeutils.config.title"))
+				.category(ConfigCategory.createBuilder()
+						.id(DyeUtils.id("config/vincent"))
+						.name(Component.translatable("dyeutils.config.category.vincent"))
+						.group(vincent(defaults, config))
+						.build())
 				.category(ConfigCategory.createBuilder()
 						.id(DyeUtils.id("config/celadon"))
 						.name(Component.translatable("dyeutils.config.category.celadon"))
@@ -99,6 +105,35 @@ public class DyeUtilsConfigScreen {
 						.controller(BooleanController.createBuilder()
 								.booleanStyle(BooleanController.BooleanStyle.ON_OFF)
 								.coloured(true)
+								.build())
+						.build())
+				.build();
+	}
+
+	private static OptionGroup vincent(DyeUtilsConfig defaults, DyeUtilsConfig config) {
+		return OptionGroup.createBuilder()
+				.id(DyeUtils.id("config/vincent_dyes"))
+				.name(Component.translatable("dyeutils.config.group.vincent"))
+				.description(Component.translatable("dyeutils.config.group.vincent.desc"))
+				.option(Option.<Boolean>createBuilder()
+						.id(DyeUtils.id("config/vincent_reveal"))
+						.name(Component.translatable("dyeutils.config.vincentReveal"))
+						.description(Component.translatable("dyeutils.config.vincentReveal.desc"))
+						.binding(defaults.vincentReveal, () -> config.vincentReveal, value -> config.vincentReveal = value)
+						.controller(BooleanController.createBuilder()
+								.booleanStyle(BooleanController.BooleanStyle.ON_OFF)
+								.coloured(true)
+								.build())
+						.build())
+				.option(Option.<Integer>createBuilder()
+						.id(DyeUtils.id("config/vincent_reveal_seconds"))
+						.name(Component.translatable("dyeutils.config.vincentRevealSeconds"))
+						.description(Component.translatable("dyeutils.config.vincentRevealSeconds.desc"))
+						.binding(defaults.vincentRevealSeconds, () -> config.vincentRevealSeconds,
+								value -> config.vincentRevealSeconds = value)
+						.controller(IntegerController.createBuilder()
+								.range(1, 10)
+								.slider(1)
 								.build())
 						.build())
 				.build();

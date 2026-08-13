@@ -18,6 +18,8 @@ import dev.zoobooo.dyeutils.rift.AutoDisband;
 import dev.zoobooo.dyeutils.rift.BacteTracker;
 import dev.zoobooo.dyeutils.rift.DyeSlimeRenderer;
 import dev.zoobooo.dyeutils.util.MessageScheduler;
+import dev.zoobooo.dyeutils.vincent.DyeHarvest;
+import dev.zoobooo.dyeutils.vincent.VincentDyes;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -56,6 +58,8 @@ public class DyeUtils implements ClientModInitializer {
 
 		EntityRendererRegistry.register(EntityType.SLIME, DyeSlimeRenderer::new);
 
+		VincentDyes.INSTANCE.init();
+
 		ClientTickEvents.END_CLIENT_TICK.register(DyeUtils::onEndTick);
 
 		// Overlay messages are the action bar, never party chatter.
@@ -82,6 +86,7 @@ public class DyeUtils implements ClientModInitializer {
 		PartyInviteQueue.INSTANCE.tick();
 		MessageScheduler.INSTANCE.tick();
 		BacteTracker.INSTANCE.tick(client);
+		DyeHarvest.INSTANCE.tick(client);
 
 		Screen pending = PENDING_SCREENS.poll();
 		if (pending != null) client.setScreen(pending);

@@ -45,6 +45,24 @@ three times.
 invited straight away. only hypixel's own announcement counts, not someone typing the words in chat.
 it can be switched off in the config.
 
+**vincent's boosted dyes**: every skyblock year vincent picks three dyes and boosts their drop rates,
+two at 2x and one at 3x. his menu shows you which three straight away, so this hides them behind
+question marks until you click one, and then plays a csgo-style case opening that scrolls dyes past and
+lands on the one actually boosted in that slot. open his menu with `/dyes`.
+
+the year is read off the dyes themselves, since their own lore says which year the boost applies to, so
+nothing here needs a clock and the dyes hide themselves again when the rotation turns over. reveals are
+remembered by dye name rather than by slot, so the two times hypixel has swapped a dye mid-year would
+have re-hidden only the dye that changed.
+
+the dyes on the reel are the real ones. every dye in skyblock is a player head, so the mod learns their
+icons from any menu that has dyes in it, vincent's dye compendium being the quickest way, and remembers
+them between sessions. until you have opened that once the reel is short.
+
+nothing about this is sent to the server. the click on a question mark is swallowed by the mod, and the
+real items are left untouched in the menu, so hypixel and any other mod still see exactly what vincent
+sent. it can be switched off under vincent in the config.
+
 both hotkeys are unbound by default. set them in the mod's config screen or under
 options, controls, key binds.
 
@@ -71,7 +89,8 @@ which is the form hypixel documents for inviting several people at once.
 
 ## the network
 
-**player heads are the only thing in this mod that touches the network,** and they are always on.
+**player heads are the only thing in this mod that touches the network,** and they are always on. two
+things rest on them now: the names on your lists, and the dye icons on the reveal reel.
 
 the usernames on your party list and favourites are sent to
 [mowojang.matdoes.dev](https://mowojang.matdoes.dev), a public read-only mirror of mojang's profile
@@ -87,6 +106,12 @@ repeatedly they stop for the session.
 
 nothing about you is sent. no account, no session, no login, no id of yours, only the usernames you
 typed in yourself.
+
+the dye icons are the same mechanism one step along. every skyblock dye is a player head, so the mod
+keeps the texture blob hypixel already sent with the item and hands that to minecraft, which fetches the
+image from mojang's own texture servers through the same cache it uses for any head in any inventory. no
+name is looked up for this, no request of ours is made, and nothing about you is sent. a dye whose
+texture will not load renders as the default head and the reveal still works.
 
 **this is not the auto updater coming back.** the mod does not download code, and does not replace its
 own jar. new versions are still installed by hand.
@@ -140,6 +165,14 @@ dependencies use the plain gradle configurations instead of `modImplementation`.
 the config screen is built on dandelion with its moulconfig backend, which is what skyblocker uses.
 the party list editor is a separate screen because dandelion's list options render every entry as a
 full option card and offer no add or remove controls.
+
+## credits
+
+the dye reveal animation is a port of the dungeon chest case opening from
+[skyocean](https://github.com/meowdding/SkyOcean) by meowdding, used under its mit licence. the easing,
+the timing and the card geometry are kept as they are there so it feels the same. the blur shader and the
+post effect chain that drives it are written from scratch, because skyocean's chain is not under the mit
+half of its licence.
 
 ## licence
 

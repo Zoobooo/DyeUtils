@@ -22,6 +22,9 @@
       "dev.zoobooo.dyeutils.compat.ModMenuIntegration"
     ]
   },
+  "mixins": [
+    "dyeutils.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.1",
     "fabric-api": ">=0.145.3+26.1.1",

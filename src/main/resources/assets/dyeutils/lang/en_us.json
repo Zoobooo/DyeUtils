@@ -54,11 +54,22 @@
   "dyeutils.config.autoDisband": "Disband After Bacte",
   "dyeutils.config.autoDisband.desc": "Runs /p disband when Hypixel announces Bacte is down, so the next group can be invited straight away.\n\nOnly Hypixel's own announcement counts. Someone typing it in chat does nothing.",
 
+  "dyeutils.config.category.vincent": "Vincent",
+  "dyeutils.config.group.vincent": "Dye Reveal",
+  "dyeutils.config.group.vincent.desc": "Vincent picks three dyes to boost every SkyBlock year, and his menu shows you which straight away.",
+  "dyeutils.config.vincentReveal": "Reveal Boosted Dyes",
+  "dyeutils.config.vincentReveal.desc": "Hides this year's boosted dyes behind question marks until you click one, then plays a case opening that lands on the real dye.\n\nNothing is sent to the server. The click is swallowed and the items in the menu are left untouched.",
+  "dyeutils.config.vincentRevealSeconds": "Animation Length",
+  "dyeutils.config.vincentRevealSeconds.desc": "How long the reel spins for, in seconds. The last quarter of it is the pause on the dye you won.",
+
   "dyeutils.config.group.advanced": "Advanced",
   "dyeutils.config.inviteCommandPrefix": "Invite Command",
   "dyeutils.config.inviteCommandPrefix.desc": "The command the IGNs are appended to. Hypixel documents /p invite <a> <b> <c> for inviting several players at once.\n\nChange this to \"/p \" if you prefer the shorthand.",
   "dyeutils.config.hideCommandsFromChat": "Hide Sent Commands",
   "dyeutils.config.hideCommandsFromChat.desc": "When off, the commands DyeUtils sends are added to your chat history so you can recall them with the up arrow.",
+
+  "dyeutils.vincent.hidden": "??? Dye",
+  "dyeutils.vincent.hiddenHint": "Click to reveal which dye Vincent boosted.",
 
   "dyeutils.message.emptyList": "Your party list is empty. Add some IGNs with /dyeutils first.",
   "dyeutils.message.invited": "Inviting %s player(s).",
